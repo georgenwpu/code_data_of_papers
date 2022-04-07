@@ -1,18 +1,19 @@
-# SINS误差分配分析程序
+# SINS Error Budget Analysis Software
+中文库地址：https://gitee.com/tmrnic/navi_toolbox/tree/master/SINS%E8%AF%AF%E5%B7%AE%E5%88%86%E9%85%8D%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F
+## Software Introduction
+The priamy function of the SINS Error Budget Analysis Software is finish navigation error budget with the navigation error parameters(initial navigation error, IMU constant error and IMU stochastic errors) and the loaded trajectory data(trj form of psins-toolbox) to obtain the error budget table at the final time.
 
-## 软件介绍
-SINS误差分配分析程序的主要功能是根据设置的导航误差参数（初始导航误差、IMU常值误差和IMU随机误差），以及载入的轨迹数据（psins-toolbox中trj结构体格式），完成导航误差分配，得到最终时刻的导航误差分配结果。
-软件界面如下：
+The Software wondow is shown below:
+
 ![软件界面](./Doc/MainWin.jpeg)
-目前软件仅实现了对于位置误差的显示，后续将加入姿态误差、速度误差的误差分配结果。
-软件功能尚不完整，因此暂不公开源码。
+The functions are not complete as designed, hence the source is not open for now. 
 
 
-## 安装说明
-1.打开Matlab，切换到"App"选项卡；
-2.点击"安装App";
-3.选中发行版安装文件"TrjGeneration.mlappinstall"；
-4.在已安装App列表中找到刚安装的应用，打开即可。
+## Installation
+1.Open Matlab and choose the app Tab control；
+2.Click "install App";
+3.Choose the install file "TrjGeneration.mlappinstall"；
+4.Find the App in installed app list, and open it to use.
 
-## 参考文献
+## Reference
 Yang, Xiaokang, Gongmin Yan, Fan Liu, Bofan Guan, and Sihai Li. "Analysis Method of Strapdown Inertial Navigation Error Distribution Based on Covariance Matrix Decomposition." arXiv preprint arXiv:2203.11810 (2022).
