@@ -1,33 +1,30 @@
-% Unscented Kalman filter(UKF) simulation with large misalignment angles.
-% See also  test_align_some_methods, test_align_ekf.
-% Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
-% Northwestern Polytechnical University, Xi An, P.R.China
-% 05/09/2013
+% Initial Alignment Method Based on Backtracking Algorithm and Backward Filtering
+% by Yang XK @ NWPU
+% 2022-05-08
 clear;
 glvs;
 load('trj_align_600s.mat');
-psinstypedef('test_align_ukf_def');
-[nn, ts, nts] = nnts(4, trj.ts);
+psinstypedef('test_align_ukf_def');         % 12维对准滤波模型
+[nn, ts, nts] = nnts(2, trj.ts);
 avp0 = trj.avp0; qnb0 = a2qua(avp0(1:3)');
 eth = earth(avp0(7:9), avp0(4:6));
-imuerr = imuerrset(100, 1000, 0.2, 20);
-% imu = imuadderr(trj.imu, imuerr);
-imu = trj.imu;
-imup = imu;
-imur = flip(imup, 1);
+imuerr = imuerrset(100, 1000, 1, 10);
+imu = imuadderr(trj.imu, imuerr);
+imup = imu;                 % 正向导航数据
+imur = flip(imup, 1);       % 逆向导航数据
 imur(:,1:3) = -imur(:,1:3);
-vpp = trj.avp(:,4:9);
-vpr = flip(vpp, 1);
+vpp = trj.avp(:,4:9);       % 正向滤波量测数据
+vpr = flip(vpp, 1);         % 逆向滤波量测数据
 vpr(:,1:3) = -vpr(:,1:3);
 afa = [85; 85; 135]*glv.deg;    % large misalignment angles
-qnb = qaddafa(qnb0,afa);
-avp0(1:3)=q2att(qnb);
+qnb0 = qaddafa(qnb0,afa);
+avp0(1:3)=q2att(qnb0);
 kf = kfinit(nts, imuerr); kf.s = 1.01; % forgetting factor
-kf.coef_fb = 0.2;
+kf.coef_fb = 0.1;
 ins = insinit(avp0, ts);
 len = length(imup); [res, xkpk] = prealloc(fix(len/nn), 7, 2*kf.n+6+1);
 
-it = 2*1+1;
+it = 2*2+1;         % 计算次数
 timebar(nn, len*it, 'UKF align simulation.');
 dir = 0;
 
@@ -42,10 +39,6 @@ for i = 1:it
         imu = imur;             % 逆向数据
         vpgnss = vpr;
         sign_wie = -1;
-    end
-    if i>1
-        ins.vn = -ins.vn;        % 速度取反
-        kf.xk([4:6,7:9]) = -kf.xk([4:6,7:9]);
     end
     
     ki=1;
@@ -75,12 +68,23 @@ for i = 1:it
         ki = ki+1;
         timebar;
     end
+    
 %     ins.qnb = qdelphi(ins.qnb, kf.xk(1:3));
 %     ins.vn = ins.vn - kf.xk(4:6);
-%     kf.xk(1:6) = zeros(6,1);
-%     kf.xk(1:6) = kf.xk(1:6) - xfb_tmp(1:6);
+%     kf.xk(4:6) = zeros(3,1);
+    ins.vn = -ins.vn;        % 速度取反
+    ins.eb = -ins.eb;
+    kf.xk([4:6,7:9]) = -kf.xk([4:6,7:9]);
+    kf.Pxk = diag(diag(kf.Pxk).*10);
 end
 
-% 
+% Plot and Analysis
+atterr = aa2phi(res(:,1:3), trj.avp(nn:nn:end,1:3))./glv.deg;
+figure;
+plot(res(:,end), atterr, 'LineWidth',2);
+xlabel('time / s');
+ylabel('\phi / deg');
+grid on;
 
-
+fprintf('陀螺零偏估计值：%9.4f %9.4f %9.4f\n',ins.eb./glv.dph);
+fprintf('加计零偏估计值：%9.4f %9.4f %9.4f\n',ins.db./glv.mg);
