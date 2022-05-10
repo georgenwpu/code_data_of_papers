@@ -6,6 +6,7 @@ The source code of these algorithm is based on _psins-toolbox_, so it is not pro
 
 ## Simulation Result
 The misalignment angles comparison of LM, NM, LMBT, and NMBT algorithms, in the condition that initial misalignment is 30deg,30deg, and 170deg.
-![x](./large_misalignment/sim2phix.png) _x-axis misalignment_
-![y](./large_misalignment/sim2phiy.png) _y-axis misalignment_
-![z](./large_misalignment/sim2phiz.png) _z-axis misalignment_
+<img src="./large_misalignment/sim2phix.png" width=400/> _x-axis misalignment_
+<img src="./large_misalignment/sim2phiy.png" width=400/> _y-axis misalignment_
+<img src="./large_misalignment/sim2phiz.png" width=400/> _z-axis misalignment_
+
