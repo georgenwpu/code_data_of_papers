@@ -5,7 +5,7 @@ These are the simulation data of the paper _A Super-high-accuracy Attitude Measu
 
 ## FIle Structure
 piece-wise quaternion high-order numerical algorithm  
-|-- ReadMe.md &emsp; &emsp; &emsp;// Introduction  
+|-- ReadMe.md &emsp;&emsp;&emsp;&emsp;// Introduction  
 |-- coning_motion_afa1.mat &emsp; // Coning motion with the half-apex angle is 1 deg  
 |-- coning_motion_afa10.mat &emsp; // Coning motion with the half-apex angle is 10 deg  
 |-- coning_motion_afa60.mat &emsp; // Coning motion with the half-apex angle is 60 deg  
