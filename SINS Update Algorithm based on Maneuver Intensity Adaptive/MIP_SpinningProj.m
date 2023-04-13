@@ -1,5 +1,5 @@
 %%==============================
-% 不同半锥角下的圆锥运动
+% Coning motion with different half-apex angle
 %%==============================
 clc; clear; close all;
 glvs;
@@ -34,28 +34,28 @@ legend('\sigma_1','\sigma_2');
 
 %% Calculation of the NCE
 global LPBCoe LPICoe LPDCoe;
-[LPBCoe, LPICoe, LPDCoe] = CalLP_OID;   % 生成Legender多项式函数
-kudt = 1;       % 更新次数
-res_q = zeros(floor(len),4*7+1);       % 姿态更新结果
-err_phi = zeros(floor(len),3*7+1);     % 姿态误差
+[LPBCoe, LPICoe, LPDCoe] = CalLP_OID;   % Generate Legender polynomial function
+kudt = 1;       % update times
+res_q = zeros(floor(len),4*7+1);       % attitude update result
+err_phi = zeros(floor(len),3*7+1);     % attitude error
 for condition = 1:N
     wm = wq{condition}.wm;
     qr = wq{condition}.qr;
-    q = repmat(qr(1,:)',[1,7]);       % 姿态更新四元数
+    q = repmat(qr(1,:)',[1,7]);       % attitude quaternion
     
     for k=ss:ss:len
         k0 = k-ss+1;  k1 = k;
-        wmk = wm(k0:k1,1:3);            % 角增量输入
-        qrk = qr(k1+1,1:4);             % 参考四元数
-        dq = GetdQ_QTS(wmk, ts, 2);     % 4次展开
+        wmk = wm(k0:k1,1:3);            % angular increment
+        qrk = qr(k1+1,1:4);             % reference quaternion
+        dq = GetdQ_QTS(wmk, ts, 2);     % 2th-order expansion
         q(:,1) = qmul(q(:,1), dq);
-        dq = GetdQ_QTS(wmk, ts, 4);     % 6次展开
+        dq = GetdQ_QTS(wmk, ts, 4);     % 4th-order expansion
         q(:,2) = qmul(q(:,2), dq);
-        dq = GetdQ_QTS(wmk, ts, 6);     % 8次展开
+        dq = GetdQ_QTS(wmk, ts, 6);     % 6th-order expansion
         q(:,3) = qmul(q(:,3), dq);
-        dq = GetdQ_QTS(wmk, ts, 8);    % 10次展开
+        dq = GetdQ_QTS(wmk, ts, 8);     % 8th-order expansion
         q(:,4) = qmul(q(:,4), dq);
-        dq = GetdQ_QTS(wmk, ts, 10);    % 10次展开
+        dq = GetdQ_QTS(wmk, ts, 10);    % 10th-order expansion
         q(:,5) = qmul(q(:,5), dq);
         res_q(kudt,:) = [reshape(q,1,28) kudt*nts];
         for kArg = 1:5
