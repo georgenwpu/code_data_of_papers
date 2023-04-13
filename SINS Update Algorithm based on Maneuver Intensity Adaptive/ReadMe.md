@@ -18,9 +18,9 @@ A Maneuver Intensity Adaptive method is proposed to improve the computing effici
 - coningManeuver_omega.m: The script to test the MIA performance in different andular frequency conditions.
 - MIP_SpinningProj.m: The script to test the MIA performance in the spinning projectile condition.
 
-# Contract
-Xiaokang Yang 
-Northwestern Polytechnical University 
-Address: Chang'an campus of Northwestern Polytechnical University, Xi’an, China 
+# Contact
+Xiaokang Yang  
+Northwestern Polytechnical University   
+Address: Chang'an campus of Northwestern Polytechnical University, Xi’an, China   
 E-mail Address:  yangxiaokang495@163.com, yangxk@mail.nwpu.edu.cn  
 
